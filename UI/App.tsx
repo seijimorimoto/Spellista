@@ -1,6 +1,6 @@
 import React from 'react';
-import LaunchScreen from './views/launch_screen/launch_screen';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { LaunchScreen } from './views/launch_screen/launch_screen';
 
 export default function App() {
   return (
