@@ -2,8 +2,9 @@ import React from 'react';
 import { Button, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { loginWithSpotify } from '../../util/auth';
+import { LaunchScreenProps } from './LaunchScreen.types';
 
-class LaunchScreen extends React.Component {
+class LaunchScreen extends React.Component<LaunchScreenProps, any> {
   static navigationOptions = {
     headerStyle: {
       display: 'none'
