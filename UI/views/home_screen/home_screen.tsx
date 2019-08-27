@@ -7,12 +7,15 @@ class HomeScreen extends React.Component {
     headerStyle: {
       display: 'none'
     }
-  }
+  };
 
   render(): JSX.Element {
     return (
       <React.Fragment>
-        <LinearGradient colors={['#e94057', '#ff1493', '#b000af', '#3f0081']} style={{ flex: 1, width: '100%' }}>
+        <LinearGradient
+          colors={['#e94057', '#ff1493', '#b000af', '#3f0081']}
+          style={{ flex: 1, width: '100%' }}
+        >
           <View style={styles.headerView}>
             <TouchableOpacity style={styles.addButton}>
               <Text style={styles.titleText}>+</Text>
@@ -33,12 +36,12 @@ class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   headerView: {
     height: '20%',
-    width: '100%',
+    width: '100%'
   },
 
   bodyView: {
     height: '80%',
-    width: '100%',
+    width: '100%'
   },
 
   addButton: {

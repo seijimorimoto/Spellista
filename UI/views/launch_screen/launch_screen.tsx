@@ -8,11 +8,14 @@ class LaunchScreen extends React.Component {
     headerStyle: {
       display: 'none'
     }
-  }
+  };
 
   render(): JSX.Element {
     return (
-      <LinearGradient colors={['#e94057', '#ff1493', '#b000af', '#3f0081']} style={{ flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+      <LinearGradient
+        colors={['#e94057', '#ff1493', '#b000af', '#3f0081']}
+        style={{ flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center' }}
+      >
         <Image
           style={{ width: 230, height: 72 }}
           source={require('../../assets/images/logo.png')}
@@ -29,7 +32,7 @@ class LaunchScreen extends React.Component {
   _onLogin = async () => {
     await loginWithSpotify();
     this.props.navigation.navigate('Home');
-  }
+  };
 }
 
-export { LaunchScreen }
+export { LaunchScreen };

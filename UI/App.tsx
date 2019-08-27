@@ -8,7 +8,7 @@ import { SplashScreen } from './views/splash_screen/splash_screen';
 const routes = {
   Launch: LaunchScreen,
   Home: HomeScreen
-}
+};
 
 export default class App extends React.Component<any, any> {
   constructor(props) {
@@ -16,7 +16,7 @@ export default class App extends React.Component<any, any> {
 
     this.state = {
       isLoggedIn: undefined
-    }
+    };
   }
 
   async componentDidMount() {
@@ -27,11 +27,13 @@ export default class App extends React.Component<any, any> {
   render(): JSX.Element {
     const { isLoggedIn } = this.state;
     if (isLoggedIn !== undefined) {
-      const appNavigator = createStackNavigator(routes, { initialRouteName: isLoggedIn ? 'Home' : 'Launch' });
+      const appNavigator = createStackNavigator(routes, {
+        initialRouteName: isLoggedIn ? 'Home' : 'Launch'
+      });
       const AppContainer = createAppContainer(appNavigator);
-      return <AppContainer />
+      return <AppContainer />;
     } else {
-      return <SplashScreen />
+      return <SplashScreen />;
     }
   }
 }

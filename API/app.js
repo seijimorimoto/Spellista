@@ -1,5 +1,6 @@
 const express = require('express');
 const routes = require('./routes/routes');
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -9,4 +10,6 @@ app.get('/', (req, res) => {
 
 app.use('/api', routes);
 
-app.listen(port, () => { `Spellista server is running on port ${port}` });
+app.listen(port, () => {
+  console.log(`Spellista server is running on port ${port}`);
+});

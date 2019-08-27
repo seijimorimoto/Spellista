@@ -7,13 +7,13 @@ module.exports = {
     const { authorization } = req.headers;
     const config = {
       headers: {
-        'Authorization': authorization
+        Authorization: authorization
       }
     };
 
-    Axios.get(SPOTIFY_BASE_URI + 'me/playlists', config).then(response => {
+    Axios.get(`${SPOTIFY_BASE_URI}'me/playlists'`, config).then(response => {
       const playlists = response.data.items.map(playlist => playlist.name);
       res.send(JSON.stringify(playlists));
     });
   }
-}
+};
