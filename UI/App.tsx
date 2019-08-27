@@ -1,9 +1,9 @@
 import React from 'react';
-import { LaunchScreen } from './views/launch_screen/launch_screen';
+import { LaunchScreen } from './components/LaunchScreen/LaunchScreen';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import { HomeScreen } from './views/home_screen/home_screen';
+import { HomeScreen } from './components/HomeScreen/HomeScreen';
 import { isLoggedIn } from './util/auth';
-import { SplashScreen } from './views/splash_screen/splash_screen';
+import { SplashScreen } from './components/SplashScreen/SplashScreen';
 
 const routes = {
   Launch: LaunchScreen,
