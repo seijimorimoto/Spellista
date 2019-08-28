@@ -1,16 +1,16 @@
-import { AsyncStorage } from "react-native";
+import { AsyncStorage } from 'react-native';
 
 const setUserData = async (key: string, value: string) => {
   try {
     await AsyncStorage.setItem(key, value);
-  } catch (e) { }
-}
+  } catch (e) {}
+};
 
 const getUserData = async (key: string): Promise<string> => {
   try {
     const value = await AsyncStorage.getItem(key);
     return value;
-  } catch (e) { }
-}
+  } catch (e) {}
+};
 
-export { setUserData, getUserData }
+export { setUserData, getUserData };

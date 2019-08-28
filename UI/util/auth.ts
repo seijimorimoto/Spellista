@@ -8,7 +8,7 @@ const scopes = scopesArr.join(' ');
 
 const getSpotifyCredentials = () => {
   return spotifyCredentials;
-}
+};
 
 const getAuthorizationCode = async () => {
   let result;
@@ -23,14 +23,14 @@ const getAuthorizationCode = async () => {
         credentials.clientId +
         (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
         '&redirect_uri=' +
-        encodeURIComponent(redirectUrl),
+        encodeURIComponent(redirectUrl)
     });
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
 
   return result.params.code;
-}
+};
 
 const getTokens = async () => {
   try {
@@ -42,11 +42,9 @@ const getTokens = async () => {
       method: 'POST',
       headers: {
         Authorization: `Basic ${credsB64}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: `grant_type=authorization_code&code=${authorizationCode}&redirect_uri=${
-        credentials.redirectUri
-        }`,
+      body: `grant_type=authorization_code&code=${authorizationCode}&redirect_uri=${credentials.redirectUri}`
     });
 
     const responseJson = await response.json();
@@ -55,7 +53,7 @@ const getTokens = async () => {
     const {
       access_token: accessToken,
       refresh_token: refreshToken,
-      expires_in: expiresIn,
+      expires_in: expiresIn
     } = responseJson;
 
     const expirationTime = new Date().getTime() + expiresIn * 1000;
@@ -65,7 +63,7 @@ const getTokens = async () => {
   } catch (err) {
     console.error(err);
   }
-}
+};
 
 const refreshTokens = async () => {
   try {
@@ -77,9 +75,9 @@ const refreshTokens = async () => {
       method: 'POST',
       headers: {
         Authorization: `Basic ${credsB64}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: `grant_type=refresh_token&refresh_token=${refreshToken}`,
+      body: `grant_type=refresh_token&refresh_token=${refreshToken}`
     });
     const responseJson = await response.json();
 
@@ -89,7 +87,7 @@ const refreshTokens = async () => {
       const {
         access_token: newAccessToken,
         refresh_token: newRefreshToken,
-        expires_in: expiresIn,
+        expires_in: expiresIn
       } = responseJson;
 
       const expirationTime = new Date().getTime() + expiresIn * 1000;
@@ -99,17 +97,23 @@ const refreshTokens = async () => {
       }
       await setUserData('expirationTime', expirationTime.toString());
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err);
   }
-}
+};
 
 const loginWithSpotify = async () => {
   const tokenExpirationTime = await getUserData('expirationTime');
-  if (!tokenExpirationTime || new Date().getTime() > new Date(tokenExpirationTime).getTime()) {
+  if (!tokenExpirationTime) {
+    await getTokens();
+  } else if (new Date().getTime() > Number.parseInt(tokenExpirationTime)) {
     await refreshTokens();
   }
-}
+};
 
-export { loginWithSpotify };
+const isLoggedIn = async () => {
+  const tokenExpirationTime = await getUserData('expirationTime');
+  return tokenExpirationTime !== null;
+};
+
+export { loginWithSpotify, isLoggedIn };
