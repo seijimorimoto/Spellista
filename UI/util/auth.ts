@@ -106,7 +106,7 @@ const loginWithSpotify = async () => {
   const tokenExpirationTime = await getUserData('expirationTime');
   if (!tokenExpirationTime) {
     await getTokens();
-  } else if (new Date().getTime() > new Date(tokenExpirationTime).getTime()) {
+  } else if (new Date().getTime() > Number.parseInt(tokenExpirationTime)) {
     await refreshTokens();
   }
 };
