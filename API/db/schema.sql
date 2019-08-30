@@ -1,8 +1,9 @@
 USE heroku_ee29877bdc24d98;
+-- If using local DB, write 'USE LOCAL_DB' where LOCAL_DB is the name of the local database.
 
 CREATE TABLE Users(
   id INT NOT NULL AUTO_INCREMENT,
-  user_spotify_id VARCHAR(50) NOT NULL,
+  user_spotify_id VARCHAR(50) UNIQUE NOT NULL,
   PRIMARY KEY(id)
 );
 
