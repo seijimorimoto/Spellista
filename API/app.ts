@@ -1,7 +1,7 @@
-const express = require('express');
-const routes = require('./routes/routes');
+import Express from 'express';
+import routes from './routes/routes';
 
-const app = express();
+const app: Express.Application = Express();
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {

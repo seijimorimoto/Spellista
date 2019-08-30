@@ -1,8 +1,9 @@
-const Axios = require('axios');
-const constants = require('../util/constants');
-const dbContext = require('../db/dbContext');
+import Express from 'express';
+import Axios from 'axios';
+import dbContext from '../db/dbContext';
+import constants from '../util/constants';
 
-const configBuilder = authorization => {
+const configBuilder = (authorization: string | undefined) => {
   return {
     headers: {
       Accept: 'application/json',
@@ -12,7 +13,7 @@ const configBuilder = authorization => {
   };
 };
 
-const createUserIfNeeded = (req, res) => {
+const createUserIfNeeded = (req: Express.Request, res: Express.Response) => {
   const { SPOTIFY_BASE_URI } = constants;
   const { authorization } = req.headers;
   const config = configBuilder(authorization);
@@ -29,7 +30,7 @@ const createUserIfNeeded = (req, res) => {
   });
 };
 
-const getPlaylists = (req, res) => {
+const getPlaylists = (req: Express.Request, res: Express.Response) => {
   const { SPOTIFY_BASE_URI } = constants;
   const { authorization } = req.headers;
   const config = configBuilder(authorization);
@@ -37,14 +38,14 @@ const getPlaylists = (req, res) => {
   Axios.get(`${SPOTIFY_BASE_URI}/me/playlists`, config)
     .then(response => {
       const playlists = response.data.items
-        .map(playlist => {
+        .map((playlist: any) => {
           const url = playlist.images.length > 0 ? playlist.images[0].url : null;
           return {
             name: playlist.name,
             imageUrl: url
           };
         })
-        .sort((pl1, pl2) => {
+        .sort((pl1: any, pl2: any) => {
           return pl1.name <= pl2.name ? -1 : 1;
         });
       res.send(JSON.stringify(playlists));
@@ -52,7 +53,9 @@ const getPlaylists = (req, res) => {
     .catch(error => console.error(error.response.data));
 };
 
-module.exports = {
+const spellistaCtrl = {
   createUserIfNeeded,
   getPlaylists
 };
+
+export default spellistaCtrl;
