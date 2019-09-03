@@ -13,21 +13,19 @@ const configBuilder = (authorization: string | undefined) => {
   };
 };
 
-const createUserIfNeeded = (req: Express.Request, res: Express.Response) => {
-  const { SPOTIFY_BASE_URI } = constants;
-  const { authorization } = req.headers;
-  const config = configBuilder(authorization);
+const createSpellista = (req: Express.Request, res: Express.Response) => {
+  const spellista = req.body;
+  const conn = dbContext.openConnection();
 
-  Axios.get(`${SPOTIFY_BASE_URI}/me`, config).then(response => {
-    const userId = response.data.id;
-    const conn = dbContext.openConnection();
-
-    conn.query('INSERT IGNORE INTO Users (user_spotify_id) VALUES (?)', [userId], err => {
+  conn.query(
+    'INSERT INTO Spellistas (playlist_spotify_id, name, user_id) VALUES (?, ?, ?)',
+    [spellista.playlistId, spellista.name, spellista.userId],
+    err => {
       if (err) console.error(err);
       else res.status(200).end();
       dbContext.closeConnection(conn);
-    });
-  });
+    }
+  );
 };
 
 const getPlaylists = (req: Express.Request, res: Express.Response) => {
@@ -53,9 +51,21 @@ const getPlaylists = (req: Express.Request, res: Express.Response) => {
     .catch(error => console.error(error.response.data));
 };
 
+const getSpellistas = (req: Express.Request, res: Express.Response) => {
+  const userId = req.query.userId;
+  const conn = dbContext.openConnection();
+
+  conn.query('SELECT * FROM Spellistas WHERE user_id = ?', [userId], (err, result) => {
+    if (err) console.error(err);
+    else res.send(result);
+    dbContext.closeConnection(conn);
+  });
+};
+
 const spellistaCtrl = {
-  createUserIfNeeded,
-  getPlaylists
+  createSpellista,
+  getPlaylists,
+  getSpellistas
 };
 
 export default spellistaCtrl;

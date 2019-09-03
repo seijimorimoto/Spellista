@@ -8,6 +8,7 @@ app.get('/', (req, res) => {
   res.send(JSON.stringify({ Hello: 'World' }));
 });
 
+app.use(Express.json());
 app.use('/api', routes);
 
 app.listen(port, () => {

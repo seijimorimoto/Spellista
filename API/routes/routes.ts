@@ -4,6 +4,7 @@ import spellistaCtrl from '../controllers/spellistaController';
 const router = Express.Router();
 
 router.route('/playlists').get(spellistaCtrl.getPlaylists);
-router.route('/user').post(spellistaCtrl.createUserIfNeeded);
+router.route('/spellistas').get(spellistaCtrl.getSpellistas);
+router.route('/spellista').post(spellistaCtrl.createSpellista);
 
 export default router;
