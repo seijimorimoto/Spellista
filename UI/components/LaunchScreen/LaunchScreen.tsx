@@ -3,9 +3,10 @@ import { Button, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { loginWithSpotify } from '../../util/auth';
 import { LaunchScreenProps } from './LaunchScreen.types';
+import { NavigationScreenOptions, StackActions, NavigationActions } from 'react-navigation';
 
 class LaunchScreen extends React.Component<LaunchScreenProps, any> {
-  static navigationOptions = {
+  static navigationOptions: NavigationScreenOptions = {
     headerStyle: {
       display: 'none'
     }
@@ -32,7 +33,11 @@ class LaunchScreen extends React.Component<LaunchScreenProps, any> {
 
   _onLogin = async () => {
     await loginWithSpotify();
-    this.props.navigation.navigate('Home');
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'Home' })]
+    });
+    this.props.navigation.dispatch(resetAction);
   };
 }
 

@@ -1,7 +1,9 @@
+import Axios from 'axios';
 import { AuthSession } from 'expo';
 import { spotifyCredentials } from './secrets';
 import { encode as btoa } from 'base-64';
 import { setUserData, getUserData } from './asyncStorage';
+import { constants } from './constants';
 
 const scopesArr = ['playlist-read-collaborative', 'playlist-read-private'];
 const scopes = scopesArr.join(' ');
@@ -102,6 +104,19 @@ const refreshTokens = async () => {
   }
 };
 
+const getAndSetUserId = async accessToken => {
+  const { SPOTIFY_BASE_URI } = constants;
+  try {
+    const response = await Axios.get(`${SPOTIFY_BASE_URI}/me`, {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    });
+    const userId = response.data.id;
+    await setUserData('userId', userId);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 const loginWithSpotify = async () => {
   const tokenExpirationTime = await getUserData('expirationTime');
   if (!tokenExpirationTime) {
@@ -109,6 +124,8 @@ const loginWithSpotify = async () => {
   } else if (new Date().getTime() > Number.parseInt(tokenExpirationTime)) {
     await refreshTokens();
   }
+  const accessToken = await getUserData('accessToken');
+  await getAndSetUserId(accessToken);
 };
 
 const isLoggedIn = async () => {

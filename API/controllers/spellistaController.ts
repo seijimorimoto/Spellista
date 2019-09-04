@@ -131,11 +131,15 @@ const getSpellistas = (req: Express.Request, res: Express.Response) => {
   const userId = req.query.userId;
   const conn = dbContext.openConnection();
 
-  conn.query('SELECT * FROM Spellistas WHERE user_id = ?', [userId], (err, result) => {
-    if (err) console.error(err);
-    else res.send(result);
-    dbContext.closeConnection(conn);
-  });
+  conn.query(
+    'SELECT id, playlist_spotify_id AS playlistId, name FROM Spellistas WHERE user_id = ?',
+    [userId],
+    (err, result) => {
+      if (err) console.error(err);
+      else res.send(result);
+      dbContext.closeConnection(conn);
+    }
+  );
 };
 
 const spellistaCtrl = {
