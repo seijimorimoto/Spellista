@@ -1,7 +1,14 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, TouchableHighlight, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { NavigationScreenOptions, StackActions, NavigationActions } from 'react-navigation';
+import {
+  NavigationScreenOptions,
+  StackActions,
+  NavigationActions,
+  NavigationScreenProp,
+  NavigationParams,
+  NavigationState
+} from 'react-navigation';
 import { constants } from '../../util/constants';
 import { homeScreenStyles } from './HomeScreen.styles';
 import { clearUserData, getUserData } from '../../util/asyncStorage';
@@ -11,13 +18,24 @@ import { ImageList } from '../ImageList/ImageList';
 import { axiosConfigBuilder } from '../../util/axiosHelper';
 
 class HomeScreen extends React.Component<IHomeScreenProps, IHomeScreenState> {
-  static navigationOptions: NavigationScreenOptions = {
-    headerRight: (
-      <TouchableOpacity style={homeScreenStyles.addBtnContainer}>
-        <Text style={homeScreenStyles.addBtnText}>+</Text>
-      </TouchableOpacity>
-    ),
-    title: 'Your Spellistas'
+  static navigationOptions = ({
+    navigation
+  }: {
+    navigation: NavigationScreenProp<NavigationState, NavigationParams>;
+  }): NavigationScreenOptions => {
+    return {
+      headerRight: (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.push('PlaylistSelection');
+          }}
+          style={homeScreenStyles.addBtnContainer}
+        >
+          <Text style={homeScreenStyles.addBtnText}>+</Text>
+        </TouchableOpacity>
+      ),
+      title: 'Your Spellistas'
+    };
   };
 
   _playlistToImageMapping: IDictionary<string>;
@@ -69,8 +87,8 @@ class HomeScreen extends React.Component<IHomeScreenProps, IHomeScreenState> {
           width={width}
         />
         <TouchableHighlight
-          style={logOutBtnContainer}
           onPress={this._onLogout}
+          style={logOutBtnContainer}
           underlayColor="#D1D1D1"
         >
           <Text style={logOutBtnText}>Log Out</Text>

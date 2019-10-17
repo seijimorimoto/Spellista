@@ -1,6 +1,5 @@
 import React from 'react';
-import { FlatList, Image, Text, View, Dimensions } from 'react-native';
-import { TouchableHighlight } from 'react-native-gesture-handler';
+import { FlatList, Image, Text, View, TouchableOpacity } from 'react-native';
 import {
   imageListImage,
   imageListStyles,
@@ -38,18 +37,18 @@ class ImageList extends React.Component<IImageListProps, any> {
     const imageSrc = item.imageUrl ? { uri: item.imageUrl } : defaultImage;
 
     return (
-      <TouchableHighlight style={imageListItem(columnSpacing, rowSpacing, width, isLeft)}>
-        <View>
+      <View style={imageListItem(columnSpacing, rowSpacing, width, isLeft)}>
+        <TouchableOpacity activeOpacity={0.75} onPress={() => {}}>
           <Image
             resizeMethod="resize"
             source={imageSrc}
             style={imageListImage(columnSpacing, width)}
           />
-          <Text numberOfLines={2} style={itemText}>
-            {item.name}
-          </Text>
-        </View>
-      </TouchableHighlight>
+        </TouchableOpacity>
+        <Text numberOfLines={2} style={itemText}>
+          {item.name}
+        </Text>
+      </View>
     );
   }
 }

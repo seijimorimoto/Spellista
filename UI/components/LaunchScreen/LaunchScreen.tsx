@@ -1,18 +1,14 @@
 import React from 'react';
-import { Button, Image } from 'react-native';
+import { Image, TouchableHighlight, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { loginWithSpotify } from '../../util/auth';
 import { LaunchScreenProps } from './LaunchScreen.types';
-import { NavigationScreenOptions, StackActions, NavigationActions } from 'react-navigation';
+import { StackActions, NavigationActions } from 'react-navigation';
+import { launchScreenStyles } from './LaunchScreen.styles';
 
 class LaunchScreen extends React.Component<LaunchScreenProps, any> {
-  static navigationOptions: NavigationScreenOptions = {
-    headerStyle: {
-      display: 'none'
-    }
-  };
-
   render(): JSX.Element {
+    const { logInBtnContainer, logInBtnText } = launchScreenStyles;
     return (
       <LinearGradient
         colors={['#e94057', '#ff1493', '#b000af', '#3f0081']}
@@ -22,11 +18,13 @@ class LaunchScreen extends React.Component<LaunchScreenProps, any> {
           style={{ width: 230, height: 72 }}
           source={require('../../assets/images/logo.png')}
         />
-        <Button
+        <TouchableHighlight
           onPress={this._onLogin}
-          title="Log-in using Spotify"
-          accessibilityLabel="Log-in using Spotify"
-        />
+          style={logInBtnContainer}
+          underlayColor="#D1D1D1"
+        >
+          <Text style={logInBtnText}>Login with Spotify</Text>
+        </TouchableHighlight>
       </LinearGradient>
     );
   }
