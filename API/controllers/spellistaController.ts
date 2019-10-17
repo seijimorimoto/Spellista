@@ -104,29 +104,6 @@ const getLlistas = (req: Express.Request, res: Express.Response) => {
   );
 };
 
-const getPlaylists = (req: Express.Request, res: Express.Response) => {
-  const { SPOTIFY_BASE_URI } = constants;
-  const { authorization } = req.headers;
-  const config = configBuilder(authorization);
-
-  Axios.get(`${SPOTIFY_BASE_URI}/me/playlists`, config)
-    .then(response => {
-      const playlists = response.data.items
-        .map((playlist: any) => {
-          const url = playlist.images.length > 0 ? playlist.images[0].url : null;
-          return {
-            name: playlist.name,
-            imageUrl: url
-          };
-        })
-        .sort((pl1: any, pl2: any) => {
-          return pl1.name <= pl2.name ? -1 : 1;
-        });
-      res.send(JSON.stringify(playlists));
-    })
-    .catch(error => console.error(error.response.data));
-};
-
 const getSpellistas = (req: Express.Request, res: Express.Response) => {
   const userId = req.query.userId;
   const conn = dbContext.openConnection();
@@ -147,7 +124,6 @@ const spellistaCtrl = {
   createLlista,
   createSpellista,
   getLlistas,
-  getPlaylists,
   getSpellistas
 };
 
